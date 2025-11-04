@@ -1,0 +1,143 @@
+# Serverless Slack Ops Assistant (AWS Lambda + API Gateway + S3)
+
+Modern DevOps teams love automation — especially when it comes with instant visibility.  
+This project connects **Slack** and **AWS** in a **serverless way** using **Lambda**, **API Gateway**, and **S3**.
+
+It performs two simple but powerful tasks:
+1. Enables Slack users to query S3 directly with a Slash Command (`/slash ls`, `/slash find <prefix>`).  
+2. Sends **real-time Slack alerts** whenever a file is **uploaded or deleted** from the bucket — including timestamps.
+
+No EC2. No servers. Just events and Lambdas — the way serverless should be.
+
+---
+
+## 🧩 Architecture Overview
+
+Here’s the architecture diagram illustrating the end-to-end flow:
+
+![Serverless Slack Ops Assistant Architecture](diagram/Serverless-Slack-Ops.png)
+
+### Flow Summary
+- **Slack Slash Command** triggers **API Gateway**.
+- **API Gateway** invokes **Lambda `slash-s3`**, which authenticates via **Slack Signing Secret** from **Secrets Manager** and performs S3 operations.
+- **S3** events (`ObjectCreated`, `ObjectRemoved`) trigger **Lambda `s3-to-slack`**, which reads a Webhook URL from **Secrets Manager** and posts alerts to Slack.
+
+Everything is **event-driven** and **fully managed** — zero infrastructure overhead.
+
+---
+
+## ⚙️ Components
+
+### Lambda Functions
+- **`slash-s3`** – Handles Slack Slash Commands (`ls`, `find`). Authenticates requests (HMAC) and interacts with S3.  
+- **`s3-to-slack`** – Listens for `ObjectCreated:*` and `ObjectRemoved:*` events and sends Slack messages about added/deleted files.
+
+### AWS Services
+- **API Gateway (HTTP API)** – Public endpoint for Slash Commands.  
+- **S3** – Object storage and event source.  
+- **Secrets Manager** – Stores Slack Webhook and Signing Secret securely.  
+- **CloudWatch** – Logs Lambda executions for debugging.  
+- **Slack App** – Combines Slash Command and Incoming Webhook.
+
+---
+
+## 💬 Example in Action
+
+### Slash Command:
+```
+/slash ls
+```
+
+**Response:**
+```
+Last 5 objects in devops-lab-uploads-osher:
+hello-world
+logs/2025-11-04.json
+```
+
+### Automatic Slack Alerts:
+```
+📥 A new file named `video.mp4` was uploaded to bucket `devops-lab-uploads-osher` at 2025-11-04 10:43:32 UTC.
+🗑️ The file `tmp/data.json` was deleted from bucket `devops-lab-uploads-osher` at 2025-11-04 10:55:10 UTC.
+```
+
+---
+
+## 🔐 Environment Variables
+
+| Lambda | Variable | Description |
+|---------|-----------|-------------|
+| `slash-s3` | `BUCKET` | Target S3 bucket name |
+|  | `SLACK_SIGNING_SECRET_ARN` | ARN of secret containing the Slack Signing Secret |
+|  | *(optional)* `DISABLE_SLACK_SIGNATURE` | Disable Slack signature verification (for testing) |
+| `s3-to-slack` | `SLACK_SECRET_ARN` | ARN containing key `SLACK_WEBHOOK_URL` |
+|  | `SLACK_WEBHOOK_URL` | Direct Slack Webhook (alternative) |
+
+---
+
+## 🪪 IAM Permissions
+
+| Function | Required Permissions |
+|-----------|----------------------|
+| `slash-s3` | `secretsmanager:GetSecretValue`, `s3:ListBucket` |
+| `s3-to-slack` | `secretsmanager:GetSecretValue` |
+
+---
+
+## 🛠️ Event Triggers
+
+**API Gateway → `slash-s3`:**
+- Method: `POST /slash`
+- Auto-deploy to `$default`
+- Set the Invoke URL as the **Slack Slash Command Request URL**.
+
+**S3 → `s3-to-slack`:**
+- Events: `s3:ObjectCreated:*` and `s3:ObjectRemoved:*`
+- Destination: Lambda `s3-to-slack`.
+
+---
+
+## 🩺 Troubleshooting
+
+- **`dispatch_failed` in Slack:**  
+  - Check CloudWatch logs of `slash-s3`.  
+  - Ensure correct ENV variables and IAM permissions.  
+  - Verify `/slash` route path in API Gateway.
+- **`Invalid length for parameter SecretId`** → ENV name mismatch.  
+- **`401 invalid signature`** → Check Base64 decoding or Signing Secret value.
+
+---
+
+## 🚀 Future Enhancements
+
+- Add `/slash rm` and `/slash put` commands for S3 write operations.  
+- Enable in-channel notifications for team-wide updates.  
+- Deploy with **AWS SAM** or **Terraform** for IaC automation.  
+- Add monitoring dashboards (CloudWatch, Prometheus, Grafana).
+
+---
+
+## 🧱 Repository Structure
+
+```
+.
+├─ src/
+│  ├─ slash-s3/lambda_function.py
+│  └─ s3-to-slack/lambda_function.py
+├─ diagram/
+│  ├─ Serverless-Slack-Ops.drawio
+│  └─ Serverless-Slack-Ops.png
+└─ README.md
+```
+
+---
+
+## ✍️ Author
+
+**Osher Rachamim**  
+DevOps Engineer | AWS | Automation | Serverless | CI/CD  
+
+📘 [GitHub](https://github.com/osherachamim)  
+💼 [LinkedIn](https://www.linkedin.com/in/osherachamim)
+
+---
