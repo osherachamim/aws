@@ -15,17 +15,15 @@ def get_signing_secret():
     try:
         return json.loads(val)['SLACK_SIGNING_SECRET']
     except Exception:
-        return val  # אם נשמר כטקסט פשוט
+        return val  
 
 def verify_slack_request(headers, body_raw):
-    # headers מגיעים בגדלים שונים; נאחד ל-lower
     h = { (k or "").lower(): v for k, v in (headers or {}).items() }
     ts  = h.get('x-slack-request-timestamp')
     sig = h.get('x-slack-signature')
     if not ts or not sig:
         print("DBG: Missing signature headers")
         return False
-    # הגבלת זמן (replay protection)
     if abs(time.time() - int(ts)) > 60*5:
         print("DBG: Timestamp too old")
         return False
@@ -47,23 +45,21 @@ def respond(text, public=False):
     }
 
 def lambda_handler(event, context):
-    # קבל את ה-raw body בדיוק כמו שהגיע
     body_raw = event.get("body") or ""
     if event.get("isBase64Encoded"):
         body_raw = base64.b64decode(body_raw).decode("utf-8")
     headers  = event.get("headers") or {}
 
-    # דיבוג עדין (לא מדפיסים סודות)
     print("DBG keys:", list((headers or {}).keys())[:8], "b64?", event.get("isBase64Encoded"))
     print("DBG body prefix:", body_raw[:80])
 
-    # אימות החתימה (ודא שאין DISABLE_SLACK_SIGNATURE=true בסביבה)
+    
     if os.getenv("DISABLE_SLACK_SIGNATURE") == "true":
         print("DBG: signature verification DISABLED")
     elif not verify_slack_request(headers, body_raw):
         return {"statusCode": 401, "body": "invalid signature"}
 
-    # פירוק נכון של x-www-form-urlencoded
+    
     form = urllib.parse.parse_qs(body_raw)
     command = (form.get("command", [""])[0] or "").strip()
     text    = (form.get("text", [""])[0] or "").strip()
