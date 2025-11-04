@@ -106,38 +106,20 @@ logs/2025-11-04.json
 - **`Invalid length for parameter SecretId`** → ENV name mismatch.  
 - **`401 invalid signature`** → Check Base64 decoding or Signing Secret value.
 
----
 
-## 🚀 Future Enhancements
-
-- Add `/slash rm` and `/slash put` commands for S3 write operations.  
-- Enable in-channel notifications for team-wide updates.  
-- Deploy with **AWS SAM** or **Terraform** for IaC automation.  
-- Add monitoring dashboards (CloudWatch, Prometheus, Grafana).
-
----
 
 ## 🧱 Repository Structure
 
 ```
 .
-├─ src/
-│  ├─ slash-s3/lambda_function.py
-│  └─ s3-to-slack/lambda_function.py
+├─ slash-s3/
+  ├─ lambda_function.py
+├─s3-to-slack/
+  └─ /lambda_function.py
 ├─ diagram/
 │  ├─ Serverless-Slack-Ops.drawio
 │  └─ Serverless-Slack-Ops.png
 └─ README.md
 ```
 
----
-
-## ✍️ Author
-
-**Osher Rachamim**  
-DevOps Engineer | AWS | Automation | Serverless | CI/CD  
-
-📘 [GitHub](https://github.com/osherachamim)  
-💼 [LinkedIn](https://www.linkedin.com/in/osherachamim)
-
----
+--
