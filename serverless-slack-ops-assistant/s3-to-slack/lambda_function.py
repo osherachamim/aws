@@ -19,7 +19,7 @@ def post_to_slack(text):
 
 def lambda_handler(event, context):
     rec = event['Records'][0]
-    event_name = rec['eventName']       # ← מזהה איזה אירוע התרחש
+    event_name = rec['eventName']       
     bucket = rec['s3']['bucket']['name']
     key = rec['s3']['object']['key']
     timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
