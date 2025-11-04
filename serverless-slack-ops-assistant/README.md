@@ -7,7 +7,7 @@ It performs two simple but powerful tasks:
 1. Enables Slack users to query S3 directly with a Slash Command (`/slash ls`, `/slash find <prefix>`).  
 2. Sends **real-time Slack alerts** whenever a file is **uploaded or deleted** from the bucket — including timestamps.
 
-No EC2. No servers. Just events and Lambdas — the way serverless should be.
+No EC2. No servers. Just events and Lambdas,  the way serverless should be.
 
 ---
 
@@ -21,8 +21,6 @@ Here’s the architecture diagram illustrating the end-to-end flow:
 - **Slack Slash Command** triggers **API Gateway**.
 - **API Gateway** invokes **Lambda `slash-s3`**, which authenticates via **Slack Signing Secret** from **Secrets Manager** and performs S3 operations.
 - **S3** events (`ObjectCreated`, `ObjectRemoved`) trigger **Lambda `s3-to-slack`**, which reads a Webhook URL from **Secrets Manager** and posts alerts to Slack.
-
-Everything is **event-driven** and **fully managed** — zero infrastructure overhead.
 
 ---
 
