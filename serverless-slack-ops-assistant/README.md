@@ -98,7 +98,32 @@ logs/2025-11-04.json
 |  | `SLACK_WEBHOOK_URL` | Direct Slack Webhook (alternative) |
 
 ---
+### 🧮 Setting Environment Variables in Lambda
 
+After deploying both Lambda functions (`slash-s3` and `s3-to-slack`), make sure to configure the required **Environment Variables** in the AWS Console.
+
+#### Lambda Service
+1. Navigate to your Lambda function.  
+2. Under **Configuration → Environment variables**, click **Edit**.  
+3. Add the following key-value pairs:
+
+**For `slash-s3`:**
+```
+BUCKET = your-s3-bucket-name
+SLACK_SIGNING_SECRET_ARN = arn:aws:secretsmanager:region:account-id:secret:slack-signing-secret
+```
+(Optional for testing)
+```
+DISABLE_SLACK_SIGNATURE = true
+```
+
+**For `s3-to-slack`:**
+```
+SLACK_WEBHOOK_URL = https://hooks.slack.com/services/XXXXX/XXXXX/XXXXX
+SLACK_SECRET_ARN = arn:aws:secretsmanager:region:account-id:secret:slack-webhook-secret
+```
+
+4. Click **Save** and then **Deploy** the function.
 ## 🪪 IAM Permissions
 
 | Function | Required Permissions |
