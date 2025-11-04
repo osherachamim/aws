@@ -165,10 +165,6 @@ SLACK_SECRET_ARN = arn:aws:secretsmanager:region:account-id:secret:slack-webhook
   ├─ lambda_function.py
 ├─s3-to-slack/
   └─ /lambda_function.py
-├─ diagram/
-│  ├─ Serverless-Slack-Ops.drawio
-│  └─ Serverless-Slack-Ops.png
 └─ README.md
 ```
 
---
