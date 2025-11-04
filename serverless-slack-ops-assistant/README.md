@@ -56,6 +56,9 @@ logs/2025-11-04.json
 ```
 
 ### Automatic Slack Alerts:
+
+<img width="856" height="87" alt="image" src="https://github.com/user-attachments/assets/d1d4e879-340b-4ade-b253-835fe08f30b9" />
+
 ```
 📥 A new file named `video.mp4` was uploaded to bucket `devops-lab-uploads-osher` at 2025-11-04 10:43:32 UTC.
 🗑️ The file `tmp/data.json` was deleted from bucket `devops-lab-uploads-osher` at 2025-11-04 10:55:10 UTC.
