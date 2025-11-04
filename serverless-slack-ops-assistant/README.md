@@ -1,6 +1,6 @@
 # Serverless Slack Ops Assistant (AWS Lambda + API Gateway + S3)
 
-Modern DevOps teams love automation — especially when it comes with instant visibility.  
+
 This project connects **Slack** and **AWS** in a **serverless way** using **Lambda**, **API Gateway**, and **S3**.
 
 It performs two simple but powerful tasks:
