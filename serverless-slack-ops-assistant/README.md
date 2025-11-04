@@ -41,6 +41,24 @@ Everything is **event-driven** and **fully managed** — zero infrastructure ove
 
 ---
 
+## 🧰 Slack App Setup
+
+To connect this project with Slack, create a custom **Slack App**:
+
+1. Go to [https://api.slack.com/apps](https://api.slack.com/apps) → **Create New App**.  
+2. Under **Features → Slash Commands**, click **Create New Command**:
+   - **Command:** `/slash`  
+   - **Request URL:** your API Gateway Invoke URL (e.g., `https://xxxx.execute-api.us-east-1.amazonaws.com/slash`)  
+   - **Short Description:** “Query S3 bucket”  
+   - **Usage Hint:** “ls / find <prefix>`  
+3. Under **Features → Incoming Webhooks**, enable it and add a **Webhook URL** for the desired Slack channel.  
+4. Copy these two secrets and store them in AWS Secrets Manager:
+   - `SLACK_SIGNING_SECRET` (from *Basic Information → App Credentials*)  
+   - `SLACK_WEBHOOK_URL` (from *Incoming Webhooks*)  
+5. Redeploy your Lambda functions after saving the secrets.
+
+---
+
 ## 💬 Example in Action
 
 ### Slash Command:
