@@ -49,6 +49,9 @@ Everything is **event-driven** and **fully managed** — zero infrastructure ove
 ```
 
 **Response:**
+
+<img width="478" height="194" alt="image" src="https://github.com/user-attachments/assets/e7582d6f-65b4-47b3-a8d3-51eff851c2db" />
+
 ```
 Last 5 objects in devops-lab-uploads-osher:
 hello-world
