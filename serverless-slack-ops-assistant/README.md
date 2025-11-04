@@ -15,7 +15,7 @@ No EC2. No servers. Just events and Lambdas,  the way serverless should be.
 
 Here’s the architecture diagram illustrating the end-to-end flow:
 
-![Serverless Slack Ops Assistant Architecture](serverless-slack-ops-assistant/Serverless-Slack-Ops.png)
+![Serverless Slack Ops Assistant Architecture](serverless-slack-ops-assistant/Serverless-Slack-Ops-Assistant.png)
 
 ### Flow Summary
 - **Slack Slash Command** triggers **API Gateway**.
