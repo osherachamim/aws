@@ -142,4 +142,3 @@ S3 access is done **exclusively via the VPC Endpoint**, not through the NAT.
 ## 🎯 Conclusion
 
 This project demonstrates real AWS production networking patterns using isolated VPCs, private workloads, secure access design, and cross-VPC communication.  
-It reflects best practices for DevOps, Cloud Engineering, and preparation for AWS certification exams.
