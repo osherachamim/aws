@@ -4,7 +4,9 @@ This project demonstrates a real-world AWS networking environment that simulates
 It includes VPC design, routing, peering, NAT, ALB, IAM roles, VPC endpoints, and secure access patterns across isolated networks.
 
 ---
-
+## 🗺️ Architecture Diagram
+(Import the `.drawio` file into draw.io)
+---
 ## 🚀 Architecture Summary
 
 ### **VPC 1 — App VPC (10.10.0.0/16)**
@@ -116,11 +118,6 @@ S3 access is done **exclusively via the VPC Endpoint**, not through the NAT.
 - CloudWatch Flow Logs analysis  
 - Bastion Host SSH access pattern  
 - Private app hosting behind ALB  
-
----
-
-## 🗺️ Architecture Diagram
-(Import the `.drawio` file into draw.io)
 
 ---
 
