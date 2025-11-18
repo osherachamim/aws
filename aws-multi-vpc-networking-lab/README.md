@@ -5,7 +5,7 @@ It includes VPC design, routing, peering, NAT, ALB, IAM roles, VPC endpoints, an
 
 ---
 ## 🗺️ Architecture Diagram
-(Import the `.drawio` file into draw.io)
+![AWS Multi-VPC Networking Architecture](./AWS-Multi-VPC-Networking-project.png)
 ---
 ## 🚀 Architecture Summary
 
